@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <link rel="stylesheet" herf="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Channel Subscriber Exchange</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #ff0000;
+            --primary-dark: #cc0000;
+            --secondary: #282828;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --warning-bg: #fff3cd;
+            --warning-border: #ffeeba;
+            --warning-text: #856404;
+            --success-bg: #d4edda;
+            --success-border: #c3e6cb;
+            --success-text: #155724;
+            --danger-bg: #f8d7da;
+            --danger-border: #f5c6cb;
+            --danger-text: #721c24;
+            --info-bg: #d1ecf1;
+            --info-border: #bee5eb;
+            --info-text: #0c5460;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: #f5f5f5;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+        
+        .alert {
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border-left: 5px solid;
+        }
+        
+        .alert-warning {
+            background-color: var(--warning-bg);
+            border-color: var(--warning-border);
+            color: var(--warning-text);
+        }
+        
+        .alert-danger {
+            background-color: var(--danger-bg);
+            border-color: var(--danger-border);
+            color: var(--danger-text);
+        }
+        
+        .alert-info {
+            background-color: var(--info-bg);
+            border-color: var(--info-border);
+            color: var(--info-text);
+        }
+        
+        .alert-success {
+            background-color: var(--success-bg);
+            border-color: var(--success-border);
+            color: var(--success-text);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        input[type="url"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+        
+        input[type="url"]:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.1);
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+        
+        .btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .table-responsive {
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .badge-success {
+            background-color: var(--success-bg);
+            color: var(--success-text);
+        }
+        
+        .badge-warning {
+            background-color: var(--warning-bg);
+            color: var(--warning-text);
+        }
+        
+        .badge-danger {
+            background-color: var(--danger-bg);
+            color: var(--danger-text);
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .text-urdu {
+            font-family: 'Nafees', 'Jameel Noori Nastaleeq', 'Urdu Typesetting', sans-serif;
+            direction: rtl;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        
+        .instructions {
+            margin: 25px 0;
+        }
+        
+        .instruction-step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .step-number {
+            background-color: var(--primary);
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+            font-weight: bold;
+        }
+        
+        .step-content {
+            flex: 1;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px 0;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .countdown-green {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .countdown-yellow {
+            color: #ffc107;
+            font-weight: bold;
+        }
+        
+        .countdown-red {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        
+        .progress-container {
+            width: 100%;
+            background-color: #e9ecef;
+            border-radius: 4px;
+            margin-top: 5px;
+        }
+        
+        .progress-bar {
+            height: 6px;
+            background-color: var(--primary);
+            border-radius: 4px;
+            transition: width 0.3s;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .card {
+                padding: 15px;
+            }
+            
+            th, td {
+                padding: 8px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1><i class="fab fa-youtube"></i> YouTube Subscriber Exchange</h1>
+            <p class="subtitle">Grow your channel organically with our community</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="alert alert-warning">
+            <h3><i class="fas fa-exclamation-triangle"></i> Important Notice</h3>
+            <p>This is your <strong>one-time FREE opportunity</strong> to get organic subscribers. Each user can only add one channel link.</p>
+        </div>
+        
+        <div class="card">
+            <h2><i class="fas fa-link"></i> Add Your Channel</h2>
+            <p>Enter your YouTube channel URL below to participate in the subscriber exchange program.</p>
+            
+            <div class="form-group">
+                <label for="channelLink">YouTube Channel URL</label>
+                <input type="url" id="channelLink" placeholder="https://youtube.com/channel/..." required>
+                <div class="progress-container">
+                    <div class="progress-bar" id="userProgress" style="width: 0%"></div>
+                </div>
+                <small id="userLimitMessage">You can only add one channel link</small>
+            </div>
+            
+            <button class="btn btn-block" id="addButton" onclick="addLink()">
+                <i class="fas fa-plus-circle"></i> Add Channel
+            </button>
+            
+            <div class="alert alert-info mt-3">
+                <h4><i class="fas fa-info-circle"></i> How to find your channel URL</h4>
+                <ol class="instructions">
+                    <li class="instruction-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">Go to <a href="https://youtube.com" target="_blank">youtube.com</a> and sign in</div>
+                    </li>
+                    <li class="instruction-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">Click on your profile picture in the top right corner</div>
+                    </li>
+                    <li class="instruction-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">Select "Your channel" from the dropdown menu</div>
+                    </li>
+                    <li class="instruction-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">Click on "Channel customization"</div>
+                    </li>
+                    <li class="instruction-step">
+                        <div class="step-number">5</div>
+                        <div class="step-content">Find and copy your channel URL at the bottom of the page</div>
+                    </li>
+                </ol>
+            </div>
+        </div>
+        
+        <div class="alert alert-danger text-urdu">
+            <h3><i class="fas fa-exclamation-circle"></i> تنبیہ</h3>
+            <p>اگر آپ نے اپنا لنک انٹر کرکے 24 گھنٹے تک غفلت برتی اور صرف ایک یا چند چینلز سبسکرائب کئے جبکہ باقی 100 چینلز سبسکرائب نہ کئے تو آپ کا <strong>پہلا اور آخری فری چانس</strong> ہمیشہ کے لئے ختم ہوجائے گا، چینل لنک ڈلیٹ کردیا جائے گا، دوسرا فری چانس نہیں ملے گا، سبسکرائبرز نہیں دئے جائیں گے، اور 100 سے کم سبسکرائب کرنے کی صورت میں آپ کو ملے ہوئے سبسکرائبرز بھی <strong>ڈلیٹ</strong> کردئے جائیں گے۔</p>
+        </div>
+        
+        <div class="card">
+            <h2><i class="fas fa-list-ol"></i> Channel List</h2>
+            <p>Subscribe to all channels below to receive your free organic subscribers.</p>
+            
+            <div class="table-responsive">
+                <table id="linkTable">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Channel</th>
+                            <th>Status</th>
+                            <th>Time Remaining</th>
+                            <th>Subscribers</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            
+            <button class="btn btn-outline btn-block" onclick="clearLinks()">
+                <i class="fas fa-trash-alt"></i> Clear All Links
+            </button>
+        </div>
+        
+        <div class="alert alert-success">
+            <h3><i class="fas fa-lightbulb"></i> How It Works</h3>
+            <ol class="instructions">
+                <li class="instruction-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">Add your YouTube channel URL above (one-time only)</div>
+                </li>
+                <li class="instruction-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">Open and subscribe to all channels in the list (click each link only once)</div>
+                </li>
+                <li class="instruction-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">Complete all subscriptions within 24 hours</div>
+                </li>
+                <li class="instruction-step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">Receive organic subscribers to your channel</div>
+                </li>
+                <li class="instruction-step">
+                    <div class="step-number">5</div>
+                    <div class="step-content">After verification, you'll get access to the watch time link</div>
+                </li>
+            </ol>
+            <p class="mt-3"><strong>Remember:</strong> This is a give-and-take system. You must subscribe to others to receive subscribers.</p>
+        </div>
+    </div>
+    
+    <footer class="footer">
+        <div class="container">
+            <p>© 2023 YouTube Subscriber Exchange. This is not affiliated with YouTube or Google LLC.</p>
+            <p>All trademarks are the property of their respective owners.</p>
+        </div>
+    </footer>
+
+    <script>
+        (function(){
+            const DAY_MS = 24 * 60 * 60 * 1000;
+            const HOUR_8_MS = 8 * 60 * 60 * 1000;
+            const HOUR_16_MS = 16 * 60 * 60 * 1000;
+            const DEFAULT_CHANNEL = "https://youtube.com/channel/UCGSR_6RBF-sqhCbHzxKX3-g";
+            const MAX_CLICKS = 100;
+            const USER_LINK_LIMIT = 1;
+
+            // Initialize with default channel if empty
+            function initDefaultChannel() {
+                let defaultChannel = {
+                    url: DEFAULT_CHANNEL,
+                    clicks: 0,
+                    addedTime: Date.now(),
+                    isDefault: true,
+                    userAdded: false
+                };
+
+                if (!localStorage.getItem("channelLinks")) {
+                    localStorage.setItem("channelLinks", JSON.stringify([defaultChannel]));
+                }
+            }
+
+            function loadLinks() {
+                try {
+                    const raw = localStorage.getItem("channelLinks");
+                    return raw ? JSON.parse(raw) : [];
+                } catch(e) {
+                    return [];
+                }
+            }
+
+            function loadBlocked() {
+                try {
+                    const raw = localStorage.getItem("blockedLinks");
+                    return new Set(raw ? JSON.parse(raw) : []);
+                } catch(e) {
+                    return new Set();
+                }
+            }
+
+            function loadUserLinks() {
+                try {
+                    const raw = localStorage.getItem("userLinks");
+                    return new Set(raw ? JSON.parse(raw) : []);
+                } catch(e) {
+                    return new Set();
+                }
+            }
+
+            let links = loadLinks();
+            let blocked = loadBlocked();
+            let userLinks = loadUserLinks();
+
+            function saveLinks() {
+                localStorage.setItem("channelLinks", JSON.stringify(links));
+            }
+            
+            function saveBlocked() {
+                localStorage.setItem("blockedLinks", JSON.stringify(Array.from(blocked)));
+            }
+
+            function saveUserLinks() {
+                localStorage.setItem("userLinks", JSON.stringify(Array.from(userLinks)));
+            }
+
+            function ensureDefaultLink() {
+                let idx = links.findIndex(l => l.url === DEFAULT_CHANNEL);
+                if (idx === -1) {
+                    links.unshift({
+                        url: DEFAULT_CHANNEL,
+                        clicks: 0,
+                        addedTime: Date.now(),
+                        isDefault: true,
+                        userAdded: false
+                    });
+                } else if (idx !== 0) {
+                    const existing = links.splice(idx, 1)[0];
+                    existing.isDefault = true;
+                    existing.userAdded = false;
+                    links.unshift(existing);
+                } else {
+                    links[0].isDefault = true;
+                    links[0].userAdded = false;
+                }
+                saveLinks();
+            }
+
+            function getCountdownClass(addedTime) {
+                const elapsed = Date.now() - addedTime;
+                if (elapsed < HOUR_8_MS) return "countdown-green";
+                if (elapsed < HOUR_16_MS) return "countdown-yellow";
+                return "countdown-red";
+            }
+
+            function formatCountdown(addedTime) {
+                let remaining = DAY_MS - (Date.now() - addedTime);
+                if (remaining < 0) remaining = 0;
+                const h = Math.floor(remaining / (1000 * 60 * 60));
+                const m = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+                const s = Math.floor((remaining % (1000 * 60)) / 1000);
+                return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+            }
+
+            function getStatusBadge(linkObj) {
+                if (linkObj.isDefault) {
+                    return `<span class="badge badge-success">Always Active</span>`;
+                } else if (linkObj.clicks >= 1) {
+                    return `<span class="badge badge-success">Subscribed</span>`;
+                } else {
+                    return `<span class="badge badge-warning">Pending</span>`;
+                }
+            }
+
+            function updateUserProgress() {
+                const progress = (userLinks.size / USER_LINK_LIMIT) * 100;
+                document.getElementById('userProgress').style.width = `${progress}%`;
+                
+                if (userLinks.size >= USER_LINK_LIMIT) {
+                    document.getElementById('addButton').disabled = true;
+                    document.getElementById('userLimitMessage').textContent = 'You have reached your link limit (1 link per user)';
+                    document.getElementById('userLimitMessage').style.color = '#dc3545';
+                }
+            }
+
+            function displayLinks() {
+                ensureDefaultLink();
+                const tbody = document.querySelector("#linkTable tbody");
+                tbody.innerHTML = "";
+                
+                if (links.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="6" class="text-center">No channels added yet</td></tr>`;
+                    return;
+                }
+                
+                links.forEach((linkObj, index) => {
+                    const tr = document.createElement("tr");
+                    const countdownClass = linkObj.isDefault ? '' : getCountdownClass(linkObj.addedTime);
+                    
+                    tr.innerHTML = `
+                        <td>${index + 1}</td>
+                        <td><a href="${linkObj.url}" target="_blank" class="channel-link">${linkObj.url.replace(/^https?:\/\//, '')}</a></td>
+                        <td>${getStatusBadge(linkObj)}</td>
+                        <td class="${countdownClass}">${linkObj.isDefault ? '∞' : formatCountdown(linkObj.addedTime)}</td>
+                        <td>${linkObj.clicks}/${MAX_CLICKS}</td>
+                        <td>
+                            <button class="btn btn-sm" onclick="handleChannelClick(${index})" ${linkObj.clicks >= 1 ? 'disabled' : ''}>
+                                ${linkObj.clicks >= 1 ? '<i class="fas fa-check"></i> Done' : '<i class="fas fa-external-link-alt"></i> Open'}
+                            </button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+
+            window.addLink = function() {
+                if (userLinks.size >= USER_LINK_LIMIT) {
+                    alert("You can only add one channel link per user.");
+                    return;
+                }
+
+                const inputEl = document.getElementById("channelLink");
+                const linkInput = (inputEl.value || "").trim();
+                const ytRegex = /^https?:\/\/(www\.)?youtube\.com\/(@[a-zA-Z0-9_\-]+|channel\/[a-zA-Z0-9_\-]+)\/?$/;
+
+                if (!ytRegex.test(linkInput)) {
+                    alert("Please enter a valid YouTube channel link in the format:\n\nhttps://youtube.com/channel/...\nor\nhttps://youtube.com/@username");
+                    return;
+                }
+                if (linkInput === DEFAULT_CHANNEL) {
+                    alert("This is the default channel link and cannot be added.");
+                    return;
+                }
+                if (blocked.has(linkInput)) {
+                    alert("This link was already used and cannot be added again.");
+                    return;
+                }
+                if (links.some(l => l.url === linkInput)) {
+                    alert("This channel link has already been added.");
+                    return;
+                }
+
+                links.push({ 
+                    url: linkInput, 
+                    clicks: 0, 
+                    addedTime: Date.now(), 
+                    isDefault: false,
+                    userAdded: true
+                });
+                
+                userLinks.add(linkInput);
+                saveLinks();
+                saveUserLinks();
+                displayLinks();
+                updateUserProgress();
+                inputEl.value = "";
+                
+                // Show success message
+                const successAlert = document.createElement('div');
+                successAlert.className = 'alert alert-success';
+                successAlert.innerHTML = '<i class="fas fa-check-circle"></i> Channel added successfully! Please subscribe to all channels in the list.';
+                document.querySelector('.card').appendChild(successAlert);
+                
+                setTimeout(() => {
+                    successAlert.remove();
+                }, 5000);
+            };
+
+            window.handleChannelClick = function(index) {
+                if (!links[index]) return;
+
+                // Prevent multiple clicks on the same link
+                if (links[index].clicks >= 1 && !links[index].isDefault) {
+                    alert("You can only click this link once.");
+                    return;
+                }
+
+                links[index].clicks++;
+                
+                // For non-default links, block after one click
+                if (!links[index].isDefault && links[index].clicks >= 1) {
+                    blocked.add(links[index].url);
+                }
+
+                saveLinks();
+                saveBlocked();
+                displayLinks();
+                window.open(links[index].url, "_blank");
+            };
+
+            window.clearLinks = function() {
+                if (confirm("Are you sure you want to clear all channel links? This cannot be undone.")) {
+                    // Keep only the default channel
+                    links = links.filter(l => l.isDefault);
+                    // Clear user links
+                    userLinks.clear();
+                    saveLinks();
+                    saveUserLinks();
+                    displayLinks();
+                    updateUserProgress();
+                }
+            };
+
+            function checkExpiry() {
+                const now = Date.now();
+                const next = [];
+                links.forEach(l => {
+                    if (l.isDefault) {
+                        if (now - l.addedTime >= DAY_MS) {
+                            l.addedTime = Date.now();
+                        }
+                        next.push(l);
+                    } else if (now - l.addedTime < DAY_MS) {
+                        next.push(l);
+                    } else {
+                        blocked.add(l.url);
+                        if (l.userAdded) {
+                            userLinks.delete(l.url);
+                        }
+                    }
+                });
+                links = next;
+                saveLinks();
+                saveBlocked();
+                saveUserLinks();
+            }
+
+            // Initialize
+            initDefaultChannel();
+            links = loadLinks();
+            blocked = loadBlocked();
+            userLinks = loadUserLinks();
+            ensureDefaultLink();
+            checkExpiry();
+            displayLinks();
+            updateUserProgress();
+
+            // Update countdown every second
+            setInterval(() => {
+                checkExpiry();
+                displayLinks();
+            }, 1000);
+        })();
+    </script>
+</body>
+</html>
+```
