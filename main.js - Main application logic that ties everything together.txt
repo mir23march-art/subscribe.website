@@ -1,0 +1,140 @@
+import { 
+    DAY_MS, DEFAULT_CHANNEL, MAX_CLICKS, 
+    USER_LINK_LIMIT, YT_REGEX 
+} from './config.js';
+import { 
+    loadLinks, loadBlocked, loadUserLinks, 
+    saveLinks, saveBlocked, saveUserLinks,
+    initDefaultChannel, ensureDefaultLink
+} from './storage.js';
+import { 
+    checkExpiry, getStatusBadge, 
+    getCountdownClass, formatCountdown 
+} from './utils.js';
+import { 
+    displayLinks, updateUserProgress, 
+    showSuccessMessage 
+} from './ui.js';
+
+// Main application state
+let links = loadLinks();
+let blocked = loadBlocked();
+let userLinks = loadUserLinks();
+
+// Initialize the app
+function init() {
+    initDefaultChannel();
+    links = loadLinks();
+    blocked = loadBlocked();
+    userLinks = loadUserLinks();
+    links = ensureDefaultLink(links);
+    
+    const { nextLinks, updatedBlocked, updatedUserLinks } = checkExpiry(links, blocked, userLinks);
+    links = nextLinks;
+    blocked = updatedBlocked;
+    userLinks = updatedUserLinks;
+    
+    saveLinks(links);
+    saveBlocked(blocked);
+    saveUserLinks(userLinks);
+    
+    displayLinks(links);
+    updateUserProgress(userLinks);
+    
+    // Update countdown every second
+    setInterval(() => {
+        const { nextLinks, updatedBlocked, updatedUserLinks } = checkExpiry(links, blocked, userLinks);
+        links = nextLinks;
+        blocked = updatedBlocked;
+        userLinks = updatedUserLinks;
+        
+        saveLinks(links);
+        saveBlocked(blocked);
+        saveUserLinks(userLinks);
+        
+        displayLinks(links);
+    }, 1000);
+}
+
+// Expose functions to window
+window.addLink = function() {
+    if (userLinks.size >= USER_LINK_LIMIT) {
+        alert("You can only add one channel link per user.");
+        return;
+    }
+
+    const inputEl = document.getElementById("channelLink");
+    const linkInput = (inputEl.value || "").trim();
+
+    if (!YT_REGEX.test(linkInput)) {
+        alert("Please enter a valid YouTube channel link in the format:\n\nhttps://youtube.com/channel/...\nor\nhttps://youtube.com/@username");
+        return;
+    }
+    if (linkInput === DEFAULT_CHANNEL) {
+        alert("This is the default channel link and cannot be added.");
+        return;
+    }
+    if (blocked.has(linkInput)) {
+        alert("This link was already used and cannot be added again.");
+        return;
+    }
+    if (links.some(l => l.url === linkInput)) {
+        alert("This channel link has already been added.");
+        return;
+    }
+
+    links.push({ 
+        url: linkInput, 
+        clicks: 0, 
+        addedTime: Date.now(), 
+        isDefault: false,
+        userAdded: true
+    });
+    
+    userLinks.add(linkInput);
+    saveLinks(links);
+    saveUserLinks(userLinks);
+    displayLinks(links);
+    updateUserProgress(userLinks);
+    inputEl.value = "";
+    
+    showSuccessMessage();
+};
+
+window.handleChannelClick = function(index) {
+    if (!links[index]) return;
+
+    // Prevent multiple clicks on the same link
+    if (links[index].clicks >= 1 && !links[index].isDefault) {
+        alert("You can only click this link once.");
+        return;
+    }
+
+    links[index].clicks++;
+    
+    // For non-default links, block after one click
+    if (!links[index].isDefault && links[index].clicks >= 1) {
+        blocked.add(links[index].url);
+    }
+
+    saveLinks(links);
+    saveBlocked(blocked);
+    displayLinks(links);
+    window.open(links[index].url, "_blank");
+};
+
+window.clearLinks = function() {
+    if (confirm("Are you sure you want to clear all channel links? This cannot be undone.")) {
+        // Keep only the default channel
+        links = links.filter(l => l.isDefault);
+        // Clear user links
+        userLinks.clear();
+        saveLinks(links);
+        saveUserLinks(userLinks);
+        displayLinks(links);
+        updateUserProgress(userLinks);
+    }
+};
+
+// Start the application
+init();

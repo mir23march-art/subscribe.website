@@ -1,0 +1,31 @@
+import localforage from 'localforage';
+import { v4 as uuidv4 } from 'uuid';
+import * as yup from 'yup';
+
+// Configure localForage
+localforage.config({
+  name: 'YTSubExchange',
+  storeName: 'youtube_subscriber_data',
+  description: 'Local storage for YouTube Subscriber Exchange'
+});
+
+// Yup validation schema
+export const channelSchema = yup.object().shape({
+  url: yup
+    .string()
+    .required('Channel URL is required')
+    .matches(
+      /^https?:\/\/(www\.)?youtube\.com\/(@[a-zA-Z0-9_\-]+|channel\/[a-zA-Z0-9_\-]+)\/?$/,
+      'Must be a valid YouTube channel URL'
+    ),
+  clicks: yup.number().min(0).max(100).required(),
+  addedTime: yup.number().required(),
+  isDefault: yup.boolean().required(),
+  userAdded: yup.boolean().required()
+});
+
+// Generate unique IDs
+export const generateId = () => uuidv4();
+
+// Export configured libraries
+export { localforage as storage, yup };
