@@ -1,0 +1,51 @@
+// Colors
+$primary: #ff0000;
+$primary-dark: #cc0000;
+$secondary: #282828;
+$light: #f8f9fa;
+$dark: #212529;
+
+// Alert Colors
+$warning-bg: #fff3cd;
+$warning-border: #ffeeba;
+$warning-text: #856404;
+
+$success-bg: #d4edda;
+$success-border: #c3e6cb;
+$success-text: #155724;
+
+$danger-bg: #f8d7da;
+$danger-border: #f5c6cb;
+$danger-text: #721c24;
+
+$info-bg: #d1ecf1;
+$info-border: #bee5eb;
+$info-text: #0c5460;
+
+// Countdown Colors
+$countdown-green: #28a745;
+$countdown-yellow: #ffc107;
+$countdown-red: #dc3545;
+
+// Fonts
+$font-primary: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+$font-urdu: 'Nafees', 'Jameel Noori Nastaleeq', 'Urdu Typesetting', sans-serif;
+
+// Spacing
+$spacing-unit: 8px;
+$spacing-xs: $spacing-unit * 0.5;
+$spacing-sm: $spacing-unit;
+$spacing-md: $spacing-unit * 2;
+$spacing-lg: $spacing-unit * 3;
+$spacing-xl: $spacing-unit * 4;
+
+// Breakpoints
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+
+// Transitions
+$transition-fast: 0.2s;
+$transition-medium: 0.3s;
+$transition-slow: 0.5s;
